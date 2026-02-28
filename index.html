@@ -10,8 +10,8 @@
 
 <body class="index-view">
   <nav class="view-switch">
-    <a href="index.html" id="link-index" class="nav-link">📖 Prohlížení</a>
-    <a href="test.html" id="link-test" class="nav-link">🧠 Testování</a>
+    <a href="index.html" class="nav-link active">📖 Prohlížení</a>
+    <a href="test.html" class="nav-link">🧠 Testování</a>
   </nav>
 
   <div class="quiz-container">
@@ -28,27 +28,24 @@
       </div>
     </div>
 
-    <div class="star-row">
-      <span id="starBtn" class="star-icon" onclick="toggleStar()">★</span>
-      <span class="star-label">Označit jako důležité</span>
-    </div>
-
     <div class="controls">
+
       <div class="navigation-row">
-        <button onclick="prevCard()" class="nav-btn">⬅</button>
-        <span id="counter" class="counter-display">0 / 0</span>
-        <button onclick="nextCard()" class="nav-btn">➡</button>
+        <button onclick="prevCard()" class="nav-btn">←</button>
+        <span id="starBtn" class="star-icon" onclick="toggleStar()">★</span>
+        <button onclick="nextCard()" class="nav-btn">→</button>
       </div>
+      <div id="counter" class="counter-display">0 / 0</div>
 
       <div class="options-row">
-        <button id="shuffleBtn" class="shuffle-btn" onclick="toggleShuffle()">🔀 Náhodně: VYP</button>
-        <button id="filterBtn" class="filter-btn" onclick="toggleFilter()">Pouze označené</button>
+        <button id="shuffleBtn" class="shuffle-btn" onclick="toggleShuffle()">➡️ Pořadí</button>
+        <button id="filterBtn" class="filter-btn" onclick="toggleFilter()">📁 Vše</button>
       </div>
     </div>
+  </div>
 
-
-    <script src="data.js"></script>
-    <script src="script.js"></script>
+  <script src="data.js"></script>
+  <script src="script.js"></script>
 </body>
 
 </html>

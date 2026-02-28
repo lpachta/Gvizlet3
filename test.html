@@ -10,16 +10,17 @@
 
 <body class="test-view">
   <nav class="view-switch">
-    <a href="index.html" id="link-index" class="nav-link">📖 Prohlížení</a>
-    <a href="test.html" id="link-test" class="nav-link">🧠 Testování</a>
+    <a href="index.html" class="nav-link">📖 Prohlížení</a>
+    <a href="test.html" class="nav-link active">🧠 Testování</a>
   </nav>
 
   <div class="quiz-container">
     <div id="finish-message" style="display:none; text-align:center;">
       <h2>Vše hotovo! 🎉</h2>
-      <button onclick="location.reload()" class="nav-btn" style="width:auto; padding:10px 20px;">Zkusit znovu</button>
+      <button onclick="location.reload()" class="nav-btn"
+        style="width:auto; padding:0 20px; border-radius:12px; margin: 0 auto;">Zkusit znovu</button>
       <br><br>
-      <a href="index.html" style="color: #2563eb;">Zpět na prohlížení</a>
+      <a href="index.html" style="color: #2563eb; text-decoration: none; font-weight: 600;">Zpět na prohlížení</a>
     </div>
 
     <div id="quiz-content">
@@ -36,22 +37,18 @@
         </div>
       </div>
 
-      <div class="star-row">
-        <span id="starBtn" class="star-icon" onclick="toggleStar()">★</span>
-        <span class="star-label">Důležité</span>
-      </div>
-
       <div class="controls">
-        <div class="counter-display" id="counter">0 / 0</div>
-
         <div class="navigation-row">
-          <button onclick="handleResult(false)" class="nav-btn btn-wrong">❌ Nevím</button>
-          <button onclick="handleResult(true)" class="nav-btn btn-right">✅ Vím</button>
+          <button onclick="handleResult(false)" class="nav-btn btn-wrong">❌</button>
+          <span id="starBtn" class="star-icon" onclick="toggleStar()">★</span>
+          <button onclick="handleResult(true)" class="nav-btn btn-right">✅</button>
         </div>
+        <div id="counter" class="counter-display">0 zbývá</div>
+
 
         <div class="options-row">
-          <button id="shuffleBtn" class="shuffle-btn" onclick="toggleShuffle()">🔀 Náhodně: VYP</button>
-          <button id="filterBtn" class="filter-btn" onclick="toggleFilter()">Pouze označené</button>
+          <button id="shuffleBtn" class="shuffle-btn" onclick="toggleShuffle()">➡️ Pořadí</button>
+          <button id="filterBtn" class="filter-btn" onclick="toggleFilter()">📁 Vše</button>
         </div>
       </div>
     </div>

@@ -1,33 +1,38 @@
-/* 1. ZÁKLADNÍ NASTAVENÍ A CENTROVÁNÍ */
+:root {
+    --bg: #f3f4f9;
+    --surface: #ffffff;
+    --primary: #2563eb;
+    --star-active: #f59e0b;
+    --radius-lg: 28px;
+    --radius-md: 16px;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
 html, body {
     height: 100%;
     margin: 0;
-    padding: 0;
-    background-color: #f0f2f5;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
+    background-color: var(--bg);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* Hlavní kontejner aplikace */
+/* Kontejner se na monitoru roztáhne */
 .quiz-container {
+    width: 90%;
+    max-width: 800px; 
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    width: 90%;
-    max-width: 450px;
+    gap: 40px; /* Pořádná mezera mezi kartou a ovládáním */
+    padding: 20px;
 }
 
-/* 2. 3D KARTA */
+/* --- KARTA --- */
 .card {
     width: 100%;
-    height: 300px;
-    perspective: 1000px;
+    height: 450px; /* Pořádná výška pro monitor */
+    perspective: 1500px;
     cursor: pointer;
 }
 
@@ -35,408 +40,166 @@ body {
     position: relative;
     width: 100%;
     height: 100%;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     transform-style: preserve-3d;
 }
 
-/* Třída pro otočení karty v JavaScriptu */
-.is-flipped {
-    transform: rotateY(180deg);
-}
+.is-flipped { transform: rotateY(180deg); }
 
 .card-front, .card-back {
     position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden; /* Skryje odvrácenou stranu */
+    backface-visibility: hidden;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 20px;
-    padding: 25px;
+    padding: 40px;
     box-sizing: border-box;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    background: white;
-    border: 1px solid rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.03);
 }
 
-.card-back {
-    transform: rotateY(180deg);
-    background-color: #f8faff;
-    color: #1f2937;
-}
+.card-back { transform: rotateY(180deg); background-color: #fafbff; }
 
-/* Obrázky uvnitř karty */
 img {
-    max-height: 140px;
-    max-width: 100%;
-    border-radius: 12px;
-    margin-bottom: 15px;
+    max-height: 250px;
+    max-width: 90%;
+    border-radius: var(--radius-md);
+    margin-bottom: 25px;
     object-fit: contain;
 }
 
+h2 {
+    margin: 0;
+    font-size: 2rem;
+    color: #1f2937;
+    text-align: center;
+}
 
-/* 4. OVLÁDACÍ PRVKY (CONTROLS) */
+/* --- OVLÁDÁNÍ --- */
 .controls {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
-    width: 100%;
+    gap: 30px;
 }
 
-/* Horní řada: Šipky a počítadlo */
 .navigation-row {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 30px;
 }
 
-.nav-btn {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+/* Tlačítka šipek a hvězdy */
+.nav-btn, .star-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
     border: none;
-    background-color: #2563eb;
-    color: white;
-    font-size: 1.2rem;
-    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background 0.2s, transform 0.1s;
-}
-
-.nav-btn:hover {
-    background-color: #1d4ed8;
-}
-
-.nav-btn:active {
-    transform: scale(0.9);
-}
-
-.counter-display {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #1f2937;
-    min-width: 90px; /* Zabraňuje poskakování šipek */
-    text-align: center;
-}
-
-/* Spodní řada: Filtry a módy */
-.options-row {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.shuffle-btn, .filter-btn {
-    padding: 10px 18px;
-    border: none;
-    border-radius: 10px;
-    font-size: 0.9rem;
-    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
-    white-space: nowrap;
+    font-size: 1.5rem;
 }
 
-/* Barvy pro funkční tlačítka */
-.shuffle-btn {
-    background-color: #10b981;
-    color: white;
-}
-
-.filter-btn {
-    background-color: #6b7280;
-    color: white;
-}
-
-/* Aktivní stavy tlačítek */
-.shuffle-btn.active {
-    background-color: #059669;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
-}
-
-.filter-btn.active {
-    background-color: #f59e0b;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
-}/* 1. ZÁKLADNÍ NASTAVENÍ A CENTROVÁNÍ */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f2f5;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Hlavní kontejner aplikace */
-.quiz-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    width: 90%;
-    max-width: 450px;
-}
-
-/* 2. 3D KARTA */
-.card {
-    width: 100%;
-    height: 300px;
-    perspective: 1000px;
-    cursor: pointer;
-}
-
-.card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-style: preserve-3d;
-}
-
-/* Třída pro otočení karty v JavaScriptu */
-.is-flipped {
-    transform: rotateY(180deg);
-}
-
-.card-front, .card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden; /* Skryje odvrácenou stranu */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 20px;
-    padding: 25px;
-    box-sizing: border-box;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    background: white;
-    border: 1px solid rgba(0,0,0,0.05);
-}
-
-.card-back {
-    transform: rotateY(180deg);
-    background-color: #f8faff;
-    color: #1f2937;
-}
-
-/* Obrázky uvnitř karty */
-img {
-    max-height: 140px;
-    max-width: 100%;
-    border-radius: 12px;
-    margin-bottom: 15px;
-    object-fit: contain;
-}
-
-/* 3. HVĚZDA POD KARTOU */
-.star-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.star-icon {
-    font-size: 35px;
-    cursor: pointer;
-    color: #ccc;
-    transition: color 0.2s, transform 0.1s;
-    user-select: none;
-}
+.nav-btn { background: #1f2937; color: white; }
+.star-icon { background: #e5e7eb; color: #9ca3af; }
 
 .star-icon.active {
-    color: #ffd700; /* Zlatá */
-    filter: drop-shadow(0 0 3px rgba(255, 215, 0, 0.4));
+    background-color: #fef3c7;
+    color: var(--star-active);
+    transform: scale(1.1);
 }
 
-.star-icon:active {
-    transform: scale(0.9);
-}
+/* Speciální barvy pro Test mód */
+.btn-wrong { background: #fee2e2 !important; color: #dc2626 !important; width: auto !important; padding: 0 40px !important; }
+.btn-right { background: #dcfce7 !important; color: #16a34a !important; width: auto !important; padding: 0 40px !important; }
 
-.star-label {
-    font-size: 0.9rem;
+.counter-display {
+    font-size: 1.1rem;
+    font-weight: 600;
     color: #6b7280;
 }
 
-/* 4. OVLÁDACÍ PRVKY (CONTROLS) */
-.controls {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    width: 100%;
-}
-
-/* Horní řada: Šipky a počítadlo */
-.navigation-row {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-}
-
-.nav-btn {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: none;
-    background-color: #2563eb;
-    color: white;
-    font-size: 1.2rem;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background 0.2s, transform 0.1s;
-}
-
-.nav-btn:hover {
-    background-color: #1d4ed8;
-}
-
-.nav-btn:active {
-    transform: scale(0.9);
-}
-
-.counter-display {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #1f2937;
-    min-width: 90px; /* Zabraňuje poskakování šipek */
-    text-align: center;
-}
-
-/* Spodní řada: Filtry a módy */
 .options-row {
     display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
+    gap: 15px;
 }
 
 .shuffle-btn, .filter-btn {
-    padding: 10px 18px;
-    border: none;
-    border-radius: 10px;
-    font-size: 0.9rem;
+    padding: 12px 24px;
+    border-radius: 100px;
+    border: 1px solid #e5e7eb;
+    background: white;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
+    transition: 0.2s;
 }
 
-/* Barvy pro funkční tlačítka */
-.shuffle-btn {
-    background-color: #10b981;
-    color: white;
+.shuffle-btn.active, .filter-btn.active {
+    background: #eff6ff;
+    color: var(--primary);
+    border-color: #bfdbfe;
 }
 
-.filter-btn {
-    background-color: #6b7280;
-    color: white;
-}
-
-/* Aktivní stavy tlačítek */
-.shuffle-btn.active {
-    background-color: #059669;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
-}
-
-.filter-btn.active {
-    background-color: #f59e0b;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
-}
-
-.btn-wrong {
-    background-color: #ef4444 !important; /* Červená */
-    width: auto !important;
-    padding: 0 25px !important;
-    border-radius: 12px !important;
-}
-
-.btn-right {
-    background-color: #22c55e !important; /* Zelená */
-    width: auto !important;
-    padding: 0 25px !important;
-    border-radius: 12px !important;
-}
-
-.btn-wrong:hover { background-color: #dc2626 !important; }
-.btn-right:hover { background-color: #16a34a !important; }
-
-/* Kontejner pro přepínač módů */
+/* Navigace nahoře */
 .view-switch {
     position: fixed;
-    top: 20px;
+    top: 25px;
+    background: #e2e8f0;
+    padding: 6px;
+    border-radius: 16px;
     display: flex;
-    background: #e5e7eb;
-    padding: 5px;
-    border-radius: 12px;
-    gap: 5px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    z-index: 100;
+    gap: 8px;
 }
 
 .nav-link {
     text-decoration: none;
-    color: #4b5563;
-    padding: 8px 16px;
-    border-radius: 8px;
+    padding: 10px 20px;
+    border-radius: 12px;
+    color: #64748b;
     font-weight: 600;
-    font-size: 0.9rem;
-    transition: all 0.2s;
 }
 
-/* Styl pro aktivní stránku */
-.nav-link:hover {
-    background: rgba(255, 255, 255, 0.5);
+.nav-link.active { background: white; color: var(--primary); }
+
+/* Responzivita pro mobily */
+@media (max-width: 600px) {
+    .card { height: 350px; }
+    h2 { font-size: 1.5rem; }
+    .quiz-container { gap: 20px; }
+    .nav-btn, .star-icon { width: 56px; height: 56px; }
 }
 
-/* Tuto třídu přidáme v HTML konkrétní stránky */
-.nav-link.active {
-    background: white;
-    color: #2563eb;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-
-.star-row {
-    margin: 10px 0;
-}
-
-.star-icon {
-    width: 48px;
-    height: 48px;
+/* Toto vynutí mezeru mezi kartou a tlačítky v Testu */
+#quiz-content {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    background-color: #f3f4f6;
-    color: #9ca3af;
-    border-radius: 12px; /* Čistý čtverec se zaoblením */
-    font-size: 24px;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    user-select: none;
+    gap: 40px; /* Mezera mezi kartou a řadou s emoji */
+    width: 100%;
 }
 
-.star-icon.active {
-    background-color: #fef3c7;
-    color: #f59e0b;
-    transform: scale(1.05);
+/* Toto zvětší mezeru mezi emoji řadou a nápisem "2 zbývá" */
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px; 
+    width: 100%;
+    margin-top: 10px; /* Další pojistka mezer */
 }
 
-.star-icon:active {
-    transform: scale(0.95);
+/* Zvětšení karty pro monitor, aby nebyla tak utopená */
+.card {
+    width: 100%;
+    height: 420px; 
+    max-width: 600px;
+    margin-bottom: 20px; /* Odstup karty od zbytku */
 }

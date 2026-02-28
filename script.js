@@ -1,14 +1,12 @@
 // --- KONFIGURACE A STAV ---
-let state = {
+const state = {
   currentIndex: 0,
   showOnlyStarred: false,
   isShuffled: false,
-  masterList: [], // Filtrovaný základ (všechny nebo hvězdy)
-  workingList: [], // To, co reálně vidíme (po zamíchání)
-  solvedIndexes: new Set(), // Pro Test mód: indexy karet, které už "víme"
+  workingList: [], // Aktuálně aktivní balíček karet
+  solvedIndexes: new Set(), // Použito pouze v test-view
 };
 
-// --- ELEMENTY ---
 const dom = {
   cardInner: document.getElementById('cardInner'),
   starBtn: document.getElementById('starBtn'),
@@ -26,10 +24,8 @@ const dom = {
 
 // --- 1. INICIALIZACE ---
 function init() {
-  // Načtení dat z data.js (mojeKarty)
   refreshLists();
 
-  // Event listener pro klávesnici (šipky)
   document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight' || e.key === ' ') nextCard();
     if (e.key === 'ArrowLeft') prevCard();
@@ -38,19 +34,17 @@ function init() {
 
 // --- 2. LOGIKA DAT ---
 function refreshLists() {
-  // 1. Filtrování
-  state.masterList = state.showOnlyStarred
+  // Filtrace a kopírování v jednom kroku
+  state.workingList = (state.showOnlyStarred
     ? mojeKarty.filter(k => k.starred)
-    : [...mojeKarty];
+    : [...mojeKarty]);
 
-  // 2. Míchání
-  state.workingList = [...state.masterList];
   if (state.isShuffled) {
     state.workingList.sort(() => Math.random() - 0.5);
   }
 
   state.currentIndex = 0;
-  state.solvedIndexes.clear(); // Vždy resetujeme postup při změně filtru/míchání
+  state.solvedIndexes.clear();
   updateUI();
 }
 
@@ -60,35 +54,33 @@ function updateUI() {
 
   dom.cardInner.classList.remove('is-flipped');
 
-  // Výpočet karet, které zbývají (jen pro test mód)
-  const remainingCards = dom.isTestView
+  // Identifikace zbývajících karet (v Test módu filtrujeme vyřešené)
+  const activePool = dom.isTestView
     ? state.workingList.filter((_, i) => !state.solvedIndexes.has(i))
     : state.workingList;
 
-  if (remainingCards.length === 0) {
-    showScreen(false);
-    // Vymažeme starý obsah, aby tam nestrašil
-    dom.fText.innerText = state.showOnlyStarred ? "Nemáš žádné označené karty" : "Seznam je prázdný";
+  // A. PRÁZDNÝ STAV
+  if (activePool.length === 0) {
+    toggleView(false);
+    dom.fText.innerText = state.showOnlyStarred ? "Žádné hvězdičky" : "Prázdno";
     dom.bText.innerText = "";
     renderImage(dom.fImg, null);
     renderImage(dom.bImg, null);
     dom.counter.innerText = "0 / 0";
-    // Skryjeme hvězdičku, když není co označovat
     if (dom.starBtn) dom.starBtn.style.visibility = "hidden";
     return;
   }
 
-  showScreen(true);
+  // B. AKTIVNÍ STAV
+  toggleView(true);
+  if (dom.starBtn) dom.starBtn.style.visibility = "visible";
 
-  // Aktuální karta (v testu bereme první nevyřešenou, v indexu podle indexu)
-  let activeCard;
-  if (dom.isTestView) {
-    // Najdeme první index, který není v solvedIndexes
-    state.currentIndex = state.workingList.findIndex((_, i) => !state.solvedIndexes.has(i));
-    activeCard = state.workingList[state.currentIndex];
-  } else {
-    activeCard = state.workingList[state.currentIndex];
-  }
+  // Určení aktuální karty
+  // V Testu vždy bereme první z "activePool", v Indexu podle currentIndexu
+  const activeCard = dom.isTestView ? activePool[0] : state.workingList[state.currentIndex];
+
+  // Synchronizace globálního indexu (důležité pro toggleStar)
+  state.currentIndex = state.workingList.indexOf(activeCard);
 
   // Vykreslení obsahu
   dom.fText.innerText = activeCard.frontText;
@@ -96,26 +88,24 @@ function updateUI() {
   renderImage(dom.fImg, activeCard.frontImg);
   renderImage(dom.bImg, activeCard.backImg);
 
-  // Hvězda - explicitní nastavení třídy
-  if (activeCard.starred) dom.starBtn.classList.add('active');
-  else dom.starBtn.classList.remove('active');
+  // Aktualizace stavu hvězdy a počítadla
+  dom.starBtn?.classList.toggle('active', !!activeCard.starred);
 
-  // Počítadlo (v testu: zbývá / celkem | v indexu: aktuální / celkem)
   dom.counter.innerText = dom.isTestView
-    ? `${remainingCards.length} zbývá`
+    ? `${activePool.length} zbývá`
     : `${state.currentIndex + 1} / ${state.workingList.length}`;
 }
 
 // --- 4. AKCE ---
 function nextCard() {
-  if (state.currentIndex < state.workingList.length - 1) {
+  if (!dom.isTestView && state.currentIndex < state.workingList.length - 1) {
     state.currentIndex++;
     updateUI();
   }
 }
 
 function prevCard() {
-  if (state.currentIndex > 0) {
+  if (!dom.isTestView && state.currentIndex > 0) {
     state.currentIndex--;
     updateUI();
   }
@@ -125,9 +115,8 @@ function handleResult(knewIt) {
   if (knewIt) {
     state.solvedIndexes.add(state.currentIndex);
   } else {
-    // Pokud neví, karta zůstává, jen se "přeskočí" (posune na konec nevyřešených)
-    // Jednoduchý trik: vyndat z pole a dát na konec
-    const card = state.workingList.splice(state.currentIndex, 1)[0];
+    // Přesun na konec: vyjmout a vložit
+    const [card] = state.workingList.splice(state.currentIndex, 1);
     state.workingList.push(card);
   }
   updateUI();
@@ -143,33 +132,32 @@ function toggleStar() {
 
 function toggleShuffle() {
   state.isShuffled = !state.isShuffled;
-  dom.shuffleBtn.classList.toggle('active', state.isShuffled);
+  dom.shuffleBtn?.classList.toggle('active', state.isShuffled);
   dom.shuffleBtn.innerText = state.isShuffled ? "🔀 Náhodně" : "➡️ Pořadí";
   refreshLists();
 }
 
 function toggleFilter() {
   state.showOnlyStarred = !state.showOnlyStarred;
-  dom.filterBtn.classList.toggle('active', state.showOnlyStarred);
-  dom.filterBtn.innerText = state.showOnlyStarred ? "⭐ Pouze hvězdy" : "📁 Všechny";
+  dom.filterBtn?.classList.toggle('active', state.showOnlyStarred);
+  dom.filterBtn.innerText = state.showOnlyStarred ? "⭐ Hvězdy" : "📁 Vše";
   refreshLists();
 }
 
 // --- POMOCNÉ FUNKCE ---
 function renderImage(imgEl, src) {
-  if (src) { imgEl.src = src; imgEl.style.display = "block"; }
-  else { imgEl.style.display = "none"; }
+  if (!imgEl) return;
+  imgEl.src = src || "";
+  imgEl.style.display = src ? "block" : "none";
 }
 
-function showScreen(showQuiz) {
-  if (!dom.quizContent || !dom.finishMessage) return;
-  dom.quizContent.style.display = showQuiz ? "block" : "none";
-  dom.finishMessage.style.display = showQuiz ? "none" : "block";
-  if (!showQuiz) dom.fText.innerText = "Hotovo!";
+function toggleView(showQuiz) {
+  if (dom.quizContent) dom.quizContent.style.display = showQuiz ? "block" : "none";
+  if (dom.finishMessage) dom.finishMessage.style.display = showQuiz ? "none" : "block";
 }
 
 function flipCard() {
-  if (state.workingList.length > 0) dom.cardInner.classList.toggle('is-flipped');
+  if (state.workingList.length > 0) dom.cardInner?.classList.toggle('is-flipped');
 }
 
 init();
