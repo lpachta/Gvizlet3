@@ -18,3 +18,5 @@ const mojeKarty = [
     backImg: "https://picsum.photos/id/1015/200/150"
   }
 ];
+
+

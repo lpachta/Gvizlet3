@@ -3,9 +3,9 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="app.css">
-  <link rel="stylesheet" href="karta.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Můj Quizlet</title>
+  <link rel="stylesheet" href="karta.css">
 </head>
 
 <body>
@@ -13,73 +13,32 @@
   <div class="quiz-container">
     <div class="card" onclick="flipCard()">
       <div class="card-inner" id="cardInner">
-        <div class="card-front" id="frontSide">
-          <img id="fImg" src="" style="display:none">
-          <h2 id="fText">Text</h2>
+        <div class="card-front">
+          <img id="fImg" src="" alt="">
+          <h2 id="fText">Načítání...</h2>
         </div>
-        <div class="card-back" id="backSide">
-          <img id="bImg" src="" style="display:none">
-          <h2 id="bText">Překlad</h2>
+        <div class="card-back">
+          <img id="bImg" src="" alt="">
+          <h2 id="bText">...</h2>
         </div>
       </div>
     </div>
 
+    <div class="star-row">
+      <span id="starBtn" class="star-icon" onclick="toggleStar()">★</span>
+      <span class="star-label">Označit jako důležité</span>
+    </div>
+
     <div class="controls">
-      <button onclick="prevCard()">⬅ Předchozí</button>
-      <span id="counter">1 / X</span>
-      <button onclick="nextCard()">Další ➡</button>
+      <button onclick="prevCard()" class="nav-btn">⬅</button>
+      <span id="counter">0 / 0</span>
+      <button onclick="nextCard()" class="nav-btn">➡</button>
+      <button id="filterBtn" class="filter-btn" onclick="toggleFilter()">Pouze označené</button>
     </div>
   </div>
 
   <script src="data.js"></script>
-  <script>
-    let currentIndex = 0;
-    const cardInner = document.getElementById('cardInner');
-
-    function updateCard() {
-      // Resetujeme otočení karty na přední stranu při změně kartičky
-      cardInner.classList.remove('is-flipped');
-
-      const data = mojeKarty[currentIndex];
-
-      // Nastavení textů
-      document.getElementById('fText').innerText = data.frontText;
-      document.getElementById('bText').innerText = data.backText;
-
-      // Nastavení obrázků (pokud existují)
-      const fImg = document.getElementById('fImg');
-      if (data.frontImg) {fImg.src = data.frontImg; fImg.style.display = "block";}
-      else {fImg.style.display = "none";}
-
-      const bImg = document.getElementById('bImg');
-      if (data.backImg) {bImg.src = data.backImg; bImg.style.display = "block";}
-      else {bImg.style.display = "none";}
-
-      document.getElementById('counter').innerText = `${currentIndex + 1} / ${mojeKarty.length}`;
-    }
-
-    function flipCard() {
-      cardInner.classList.toggle('is-flipped');
-    }
-
-    function nextCard() {
-      if (currentIndex < mojeKarty.length - 1) {
-        currentIndex++;
-        updateCard();
-      }
-    }
-
-    function prevCard() {
-      if (currentIndex > 0) {
-        currentIndex--;
-        updateCard();
-      }
-    }
-
-    // Inicializace první karty
-    updateCard();
-  </script>
-
+  <script src="script.js"></script>
 </body>
 
 </html>

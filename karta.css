@@ -1,0 +1,136 @@
+/* Centrování na celou obrazovku */
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: #f0f2f5;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.quiz-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 90%;
+    max-width: 450px;
+}
+
+/* 3D Karta */
+.card {
+    width: 100%;
+    height: 300px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.is-flipped {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    background: white;
+    border: 1px solid #eee;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    background-color: #f8faff;
+}
+
+img {
+    max-height: 150px;
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    object-fit: contain;
+}
+
+/* Hvězda */
+.star-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.star-icon {
+    font-size: 35px;
+    cursor: pointer;
+    color: #ccc;
+    transition: color 0.2s, transform 0.1s;
+    user-select: none;
+}
+
+.star-icon.active {
+    color: #ffd700;
+}
+
+.star-icon:active {
+    transform: scale(0.9);
+}
+
+.star-label {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Tlačítka */
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-btn, .filter-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.nav-btn {
+    background: #2563eb;
+    color: white;
+}
+
+.filter-btn {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.filter-btn.active {
+    background: #f59e0b;
+    color: white;
+}
+
+#counter {
+    font-size: 1rem;
+    color: #444;
+}
