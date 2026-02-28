@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Testovací mód</title>
+  <link rel="stylesheet" href="karta.css">
+</head>
+
+<body class="test-view">
+  <nav class="view-switch">
+    <a href="index.html" id="link-index" class="nav-link">📖 Prohlížení</a>
+    <a href="test.html" id="link-test" class="nav-link">🧠 Testování</a>
+  </nav>
+
+  <div class="quiz-container">
+    <div id="finish-message" style="display:none; text-align:center;">
+      <h2>Vše hotovo! 🎉</h2>
+      <button onclick="location.reload()" class="nav-btn" style="width:auto; padding:10px 20px;">Zkusit znovu</button>
+      <br><br>
+      <a href="index.html" style="color: #2563eb;">Zpět na prohlížení</a>
+    </div>
+
+    <div id="quiz-content">
+      <div class="card" onclick="flipCard()">
+        <div class="card-inner" id="cardInner">
+          <div class="card-front">
+            <img id="fImg" src="">
+            <h2 id="fText"></h2>
+          </div>
+          <div class="card-back">
+            <img id="bImg" src="">
+            <h2 id="bText"></h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="star-row">
+        <span id="starBtn" class="star-icon" onclick="toggleStar()">★</span>
+        <span class="star-label">Důležité</span>
+      </div>
+
+      <div class="controls">
+        <div class="counter-display" id="counter">0 / 0</div>
+
+        <div class="navigation-row">
+          <button onclick="handleResult(false)" class="nav-btn btn-wrong">❌ Nevím</button>
+          <button onclick="handleResult(true)" class="nav-btn btn-right">✅ Vím</button>
+        </div>
+
+        <div class="options-row">
+          <button id="shuffleBtn" class="shuffle-btn" onclick="toggleShuffle()">🔀 Náhodně: VYP</button>
+          <button id="filterBtn" class="filter-btn" onclick="toggleFilter()">Pouze označené</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
