@@ -1,9 +1,10 @@
-/* Centrování na celou obrazovku */
+/* 1. ZÁKLADNÍ NASTAVENÍ A CENTROVÁNÍ */
 html, body {
     height: 100%;
     margin: 0;
+    padding: 0;
     background-color: #f0f2f5;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
@@ -12,6 +13,7 @@ body {
     align-items: center;
 }
 
+/* Hlavní kontejner aplikace */
 .quiz-container {
     display: flex;
     flex-direction: column;
@@ -21,7 +23,7 @@ body {
     max-width: 450px;
 }
 
-/* 3D Karta */
+/* 2. 3D KARTA */
 .card {
     width: 100%;
     height: 300px;
@@ -37,6 +39,7 @@ body {
     transform-style: preserve-3d;
 }
 
+/* Třída pro otočení karty v JavaScriptu */
 .is-flipped {
     transform: rotateY(180deg);
 }
@@ -45,37 +48,40 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden;
+    backface-visibility: hidden; /* Skryje odvrácenou stranu */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     border-radius: 20px;
-    padding: 20px;
+    padding: 25px;
     box-sizing: border-box;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     background: white;
-    border: 1px solid #eee;
+    border: 1px solid rgba(0,0,0,0.05);
 }
 
 .card-back {
     transform: rotateY(180deg);
     background-color: #f8faff;
+    color: #1f2937;
 }
 
+/* Obrázky uvnitř karty */
 img {
-    max-height: 150px;
+    max-height: 140px;
     max-width: 100%;
-    border-radius: 10px;
+    border-radius: 12px;
     margin-bottom: 15px;
     object-fit: contain;
 }
 
-/* Hvězda */
+/* 3. HVĚZDA POD KARTOU */
 .star-row {
     display: flex;
     align-items: center;
     gap: 10px;
+    margin-bottom: 10px;
 }
 
 .star-icon {
@@ -87,7 +93,8 @@ img {
 }
 
 .star-icon.active {
-    color: #ffd700;
+    color: #ffd700; /* Zlatá */
+    filter: drop-shadow(0 0 3px rgba(255, 215, 0, 0.4));
 }
 
 .star-icon:active {
@@ -96,41 +103,93 @@ img {
 
 .star-label {
     font-size: 0.9rem;
-    color: #666;
+    color: #6b7280;
 }
 
-/* Tlačítka */
+/* 4. OVLÁDACÍ PRVKY (CONTROLS) */
 .controls {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
+    width: 100%;
 }
 
-.nav-btn, .filter-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.2s;
+/* Horní řada: Šipky a počítadlo */
+.navigation-row {
+    display: flex;
+    align-items: center;
+    gap: 25px;
 }
 
 .nav-btn {
-    background: #2563eb;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background-color: #2563eb;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.nav-btn:hover {
+    background-color: #1d4ed8;
+}
+
+.nav-btn:active {
+    transform: scale(0.9);
+}
+
+.counter-display {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #1f2937;
+    min-width: 90px; /* Zabraňuje poskakování šipek */
+    text-align: center;
+}
+
+/* Spodní řada: Filtry a módy */
+.options-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.shuffle-btn, .filter-btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+/* Barvy pro funkční tlačítka */
+.shuffle-btn {
+    background-color: #10b981;
     color: white;
 }
 
 .filter-btn {
-    background: #e5e7eb;
-    color: #374151;
-}
-
-.filter-btn.active {
-    background: #f59e0b;
+    background-color: #6b7280;
     color: white;
 }
 
-#counter {
-    font-size: 1rem;
-    color: #444;
+/* Aktivní stavy tlačítek */
+.shuffle-btn.active {
+    background-color: #059669;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.filter-btn.active {
+    background-color: #f59e0b;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
 }

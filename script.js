@@ -90,6 +90,75 @@ function toggleFilter() {
   currentIndex = 0;
   updateUI();
 }
+let isShuffled = false;
+// Pomocná funkce pro zamíchání pole (Fisher-Yates)
+function getShuffledCopy(array) {
+  let shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+function toggleShuffle() {
+  isShuffled = !isShuffled;
+  const btn = document.getElementById('shuffleBtn');
+
+  applyFiltersAndOrder(); // Tato nová funkce vyřeší filtr i míchání naráz
+
+  if (isShuffled) {
+    btn.classList.add('active');
+    btn.innerText = "🔀 Náhodně: ZAP";
+  } else {
+    btn.classList.remove('active');
+    btn.innerText = "🔀 Náhodně: VYP";
+  }
+}
+
+// Tato funkce teď bude "mozkem" toho, co se zrovna zobrazuje
+function applyFiltersAndOrder() {
+  // 1. Nejdřív vezmeme základní data (všechna nebo jen s hvězdou)
+  let list = showOnlyStarred ? mojeKarty.filter(k => k.starred) : [...mojeKarty];
+
+  // 2. Pokud je zapnuté míchání, zamícháme tento konkrétní výběr
+  if (isShuffled) {
+    list = getShuffledCopy(list);
+  }
+
+  currentList = list;
+  currentIndex = 0; // Vždy skočíme na začátek při změně módu
+  updateUI();
+}
+
+// Musíme také upravit původní funkci toggleFilter, aby spolupracovala
+function toggleFilter() {
+  showOnlyStarred = !showOnlyStarred;
+  const btn = document.getElementById('filterBtn');
+
+  if (showOnlyStarred) {
+    btn.classList.add('active');
+    btn.innerText = "Zobrazit vše";
+  } else {
+    btn.classList.remove('active');
+    btn.innerText = "Pouze označené";
+  }
+
+  applyFiltersAndOrder();
+}
+
+
+function shuffleCards() {
+  // Zamícháme aktuálně zobrazený seznam (všechny nebo jen označené)
+  for (let i = currentList.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [currentList[i], currentList[j]] = [currentList[j], currentList[i]];
+  }
+
+  // Vrátíme se na první kartu zamíchaného seznamu
+  currentIndex = 0;
+  updateUI();
+}
 
 // Spuštění při načtení
 updateUI();

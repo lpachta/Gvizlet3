@@ -30,15 +30,21 @@
     </div>
 
     <div class="controls">
-      <button onclick="prevCard()" class="nav-btn">⬅</button>
-      <span id="counter">0 / 0</span>
-      <button onclick="nextCard()" class="nav-btn">➡</button>
-      <button id="filterBtn" class="filter-btn" onclick="toggleFilter()">Pouze označené</button>
-    </div>
-  </div>
+      <div class="navigation-row">
+        <button onclick="prevCard()" class="nav-btn">⬅</button>
+        <span id="counter" class="counter-display">0 / 0</span>
+        <button onclick="nextCard()" class="nav-btn">➡</button>
+      </div>
 
-  <script src="data.js"></script>
-  <script src="script.js"></script>
+      <div class="options-row">
+        <button id="shuffleBtn" class="shuffle-btn" onclick="toggleShuffle()">🔀 Náhodně: VYP</button>
+        <button id="filterBtn" class="filter-btn" onclick="toggleFilter()">Pouze označené</button>
+      </div>
+    </div>
+
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>
