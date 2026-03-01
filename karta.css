@@ -10,6 +10,7 @@
 
 html, body {
     height: 100%;
+    width: 100%;
     margin: 0;
     background-color: var(--bg);
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -105,11 +106,37 @@ h2 {
     align-items: center;
     cursor: pointer;
     transition: all 0.2s;
-    font-size: 1.5rem;
+    font-size: 2rem;
 }
 
-.nav-btn { background: #1f2937; color: white; }
+.nav-btn { 
+  background: var(--primary); 
+  color: white;
+
+}
 .star-icon { background: #e5e7eb; color: #9ca3af; }
+
+/* Efekt při najetí myší (hover) */
+.nav-btn:hover {
+    background: #1d4ed8; /* O něco tmavší modrá */
+    transform: translateY(-3px); /* Lehké nadzvednutí */
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+/* Efekt při kliknutí (active) */
+.nav-btn:active {
+    transform: translateY(1px) scale(0.95); /* Prohnutí dolů a mírné zmenšení */
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+}
+
+/* Animace samotných šipek uvnitř (pokud chceš, aby se hýbaly) */
+.nav-btn:first-child:hover {
+    padding-right: 8px; /* Šipka vlevo se lehce "vysune" doleva */
+}
+
+.nav-btn:last-child:hover {
+    padding-left: 8px; /* Šipka vpravo se lehce "vysune" doprava */
+}
 
 .star-icon.active {
     background-color: #fef3c7;
@@ -200,6 +227,5 @@ h2 {
 .card {
     width: 100%;
     height: 420px; 
-    max-width: 600px;
     margin-bottom: 20px; /* Odstup karty od zbytku */
 }
