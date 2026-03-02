@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Přidání karty</title>
+  <link rel="stylesheet" href="karta.css">
+</head>
+
+<body class="add-view">
+  <nav class="view-switch">
+    <a href="index.html" class="nav-link">📖 Prohlížení</a>
+    <a href="test.html" class="nav-link active">🧠 Testování</a>
+    <a href="add.html" class="nav-link active">+ Přidání karty</a>
+  </nav>
+
+  <div id="add-card-view" style="display:none;">
+      <div class="card-form">
+          <h2>Nová kartička</h2>
+          
+          <div class="input-group">
+              <label for="frontText">Přední strana (Text):</label>
+              <input type="text" id="frontText" placeholder="Co chceš vědět?">
+          </div>
+
+          <div class="input-group">
+              <label for="backText">Zadní strana (Odpověď):</label>
+              <input type="text" id="backText" placeholder="Jaká je odpověď?">
+          </div>
+
+          <div class="button-row">
+              <button id="save-card-btn" class="nav-btn btn-right">💾 Uložit</button>
+              <button id="cancel-add-btn" class="nav-btn btn-wrong">❌ Zrušit</button>
+          </div>
+      </div>
+  </div>
+  <script type="module" src="script.js"></script>
+
+</body>
+
+</html>

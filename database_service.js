@@ -26,3 +26,33 @@ export async function getCards() {
     return [];
   }
 }
+
+/**
+ * Univerzální funkce pro aktualizaci stavu hvězdičky v DB
+ * @param {number|string} id - ID karty
+ * @param {boolean} isStarred - Nový stav (true/false)
+ */
+export async function updateCardStar(id, isStarred) {
+  try {
+    const response = await fetch('api.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // Převádíme boolean zpět na 0/1 pro databázi, pokud to PHP vyžaduje
+      body: JSON.stringify({
+        id: id,
+        starred: isStarred ? 1 : 0
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Server odpověděl chybou: ${response.status}`);
+    }
+
+    return await response.json(); // Vrátíme odpověď serveru (např. {success: true})
+  } catch (err) {
+    console.error("Chyba při ukládání do DB:", err);
+    throw err; // Vyhodíme chybu dál, aby na ni mohl reagovat hlavní skript
+  }
+}

@@ -1,4 +1,4 @@
-import { getCards } from './database_service.js';
+import { getCards, updateCardStar } from './database_service.js';
 
 // --- KONFIGURACE A STAV ---
 const state = {
@@ -7,6 +7,7 @@ const state = {
   isShuffled: false,
   workingList: [], // Aktuálně aktivní balíček karet
   solvedIndexes: new Set(), // Použito pouze v test-view
+  allCards: [],
 };
 
 const dom = {
@@ -21,16 +22,26 @@ const dom = {
   filterBtn: document.getElementById('filterBtn'),
   quizContent: document.getElementById('quiz-content'),
   finishMessage: document.getElementById('finish-message'),
-  isTestView: document.body.classList.contains('test-view')
+  isTestView: document.body.classList.contains('test-view'),
+  lBtn: document.getElementById('btn-l'),
+  rBtn: document.getElementById('btn-r'),
+  reloadBtn: document.getElementById('reload-btn'),
+  btnWrong: document.getElementById('btn-wrong'),
+  btnRight: document.getElementById('btn-right'),
 };
 
 
-// --- 1. INICIALIZACE ---
+/**
+* Inicializace aplikace
+*
+* Nacte karty a prida event listenery.
+*/
 async function init() {
   // Načtení dat z PHP serveru
   const loadedCards = await getCards();
+  state.allCards = loadedCards;
   if (loadedCards.length > 0) {
-    refreshLists(loadedCards);
+    refreshLists();
   }
 
   // Keybinds
@@ -38,17 +49,26 @@ async function init() {
     if (e.key === 'ArrowRight' || e.key === ' ') nextCard();
     if (e.key === 'ArrowLeft') prevCard();
   });
-  dom.cardInner.addEventListener("click", () => {
-    flipCard();
-  })
+  dom.cardInner.addEventListener("click", flipCard);
+  dom.lBtn?.addEventListener("click", prevCard);
+  dom.rBtn?.addEventListener("click", nextCard);
+  dom.starBtn?.addEventListener("click", toggleStar);
+  dom.shuffleBtn.addEventListener("click", toggleShuffle);
+  dom.filterBtn.addEventListener("click", toggleFilter);
+  dom.reloadBtn?.addEventListener("click", () => { location.reload() });
+  dom.btnWrong?.addEventListener("click", () => { handleResult(false) });
+  dom.btnRight?.addEventListener("click", () => { handleResult(true) });
 }
 
-// --- 2. LOGIKA DAT ---
-function refreshLists(loadedCards) {
+/**
+ * 
+ * @param {seznam} loadedCards nactene karty, ktere se vyfiltruji
+*/
+function refreshLists() {
   // Filtrace a kopírování v jednom kroku
   state.workingList = (state.showOnlyStarred
-    ? loadedCards.filter(k => k.starred)
-    : [...loadedCards]);
+    ? state.allCards.filter(k => k.starred)
+    : [...state.allCards]);
 
   if (state.isShuffled) {
     state.workingList.sort(() => Math.random() - 0.5);
@@ -140,10 +160,8 @@ async function toggleStar() {
     updateUI();
 
     // Odeslání změny do databáze
-    await fetch('api.php', {
-      method: 'POST',
-      body: JSON.stringify({ id: card.id, starred: card.starred })
-    });
+    //TODO: chyt chybu
+    await updateCardStar(card.id, card.starred);
   }
 }
 

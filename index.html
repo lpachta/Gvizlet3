@@ -12,6 +12,7 @@
   <nav class="view-switch">
     <a href="index.html" class="nav-link active">📖 Prohlížení</a>
     <a href="test.html" class="nav-link">🧠 Testování</a>
+    <a href="add.html" class="nav-link">+ Přidání karty</a>
   </nav>
 
   <div class="quiz-container">
@@ -31,21 +32,20 @@
     <div class="controls">
 
       <div class="navigation-row">
-        <button onclick="prevCard()" class="nav-btn">⬅</button>
-        <span id="starBtn" class="star-icon" onclick="toggleStar()">★</span>
-        <button onclick="nextCard()" class="nav-btn">➡</button>
+        <button class="nav-btn" id="btn-l">⬅</button>
+        <span id="starBtn" class="star-icon">★</span>
+        <button class="nav-btn" id="btn-r">➡</button>
       </div>
       <div id="counter" class="counter-display">0 / 0</div>
 
       <div class="options-row">
-        <button id="shuffleBtn" class="shuffle-btn" onclick="toggleShuffle()">➡️ Pořadí</button>
-        <button id="filterBtn" class="filter-btn" onclick="toggleFilter()">📁 Vše</button>
+        <button id="shuffleBtn" class="shuffle-btn">➡️ Pořadí</button>
+        <button id="filterBtn" class="filter-btn">📁 Vše</button>
       </div>
     </div>
   </div>
 
   <script type="module" src="script.js"></script>
-  <script type="module" src="database_service.js"></script>
 </body>
 
 </html>

@@ -11,20 +11,21 @@
 <body class="test-view">
   <nav class="view-switch">
     <a href="index.html" class="nav-link">📖 Prohlížení</a>
-    <a href="test.html" class="nav-link active">🧠 Testování</a>
+    <a href="test.html" class="nav-link">🧠 Testování</a>
+    <a href="add.html" class="nav-link active">+ Přidání karty</a>
   </nav>
 
   <div class="quiz-container">
     <div id="finish-message" style="display:none; text-align:center;">
       <h2>Vše hotovo! 🎉</h2>
-      <button onclick="location.reload()" class="nav-btn"
+      <button id="reload-btn" class="nav-btn"
         style="width:auto; padding:0 20px; border-radius:12px; margin: 0 auto;">Zkusit znovu</button>
       <br><br>
       <a href="index.html" style="color: #2563eb; text-decoration: none; font-weight: 600;">Zpět na prohlížení</a>
     </div>
 
     <div id="quiz-content">
-      <div class="card" onclick="flipCard()">
+      <div class="card">
         <div class="card-inner" id="cardInner">
           <div class="card-front">
             <img id="fImg" src="">
@@ -39,23 +40,21 @@
 
       <div class="controls">
         <div class="navigation-row">
-          <button onclick="handleResult(false)" class="nav-btn btn-wrong">❌</button>
-          <span id="starBtn" class="star-icon" onclick="toggleStar()">★</span>
-          <button onclick="handleResult(true)" class="nav-btn btn-right">✅</button>
+          <button id="btn-wrong" class="nav-btn btn-wrong">❌</button>
+          <span id="starBtn" class="star-icon" ">★</span>
+          <button id="btn-right" class="nav-btn btn-right">✅</button>
         </div>
         <div id="counter" class="counter-display">0 zbývá</div>
 
 
         <div class="options-row">
-          <button id="shuffleBtn" class="shuffle-btn" onclick="toggleShuffle()">➡️ Pořadí</button>
-          <button id="filterBtn" class="filter-btn" onclick="toggleFilter()">📁 Vše</button>
+          <button id="shuffleBtn" class="shuffle-btn" ">➡️ Pořadí</button>
+          <button id="filterBtn" class="filter-btn" ">📁 Vše</button>
         </div>
       </div>
     </div>
   </div>
-
-  <script src="data.js"></script>
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 
 </html>
