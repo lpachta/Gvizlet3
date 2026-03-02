@@ -1,3 +1,5 @@
+import { getCards } from './database_service.js';
+
 // --- KONFIGURACE A STAV ---
 const state = {
   currentIndex: 0,
@@ -26,30 +28,27 @@ const dom = {
 // --- 1. INICIALIZACE ---
 async function init() {
   // Načtení dat z PHP serveru
-  try {
-    const response = await fetch('api.php');
-    mojeKarty = await response.json();
-
-    // Převod 0/1 z databáze na true/false pro JS
-    mojeKarty.forEach(k => k.starred = !!parseInt(k.starred));
-
-    refreshLists();
-  } catch (err) {
-    console.error("Chyba při načítání dat:", err);
+  const loadedCards = await getCards();
+  if (loadedCards.length > 0) {
+    refreshLists(loadedCards);
   }
 
+  // Keybinds
   document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight' || e.key === ' ') nextCard();
     if (e.key === 'ArrowLeft') prevCard();
   });
+  dom.cardInner.addEventListener("click", () => {
+    flipCard();
+  })
 }
 
 // --- 2. LOGIKA DAT ---
-function refreshLists() {
+function refreshLists(loadedCards) {
   // Filtrace a kopírování v jednom kroku
   state.workingList = (state.showOnlyStarred
-    ? mojeKarty.filter(k => k.starred)
-    : [...mojeKarty]);
+    ? loadedCards.filter(k => k.starred)
+    : [...loadedCards]);
 
   if (state.isShuffled) {
     state.workingList.sort(() => Math.random() - 0.5);
