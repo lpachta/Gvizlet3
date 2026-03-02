@@ -22,9 +22,21 @@ const dom = {
   isTestView: document.body.classList.contains('test-view')
 };
 
+
 // --- 1. INICIALIZACE ---
-function init() {
-  refreshLists();
+async function init() {
+  // Načtení dat z PHP serveru
+  try {
+    const response = await fetch('api.php');
+    mojeKarty = await response.json();
+
+    // Převod 0/1 z databáze na true/false pro JS
+    mojeKarty.forEach(k => k.starred = !!parseInt(k.starred));
+
+    refreshLists();
+  } catch (err) {
+    console.error("Chyba při načítání dat:", err);
+  }
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight' || e.key === ' ') nextCard();
@@ -122,11 +134,17 @@ function handleResult(knewIt) {
   updateUI();
 }
 
-function toggleStar() {
+async function toggleStar() {
   const card = state.workingList[state.currentIndex];
   if (card) {
     card.starred = !card.starred;
     updateUI();
+
+    // Odeslání změny do databáze
+    await fetch('api.php', {
+      method: 'POST',
+      body: JSON.stringify({ id: card.id, starred: card.starred })
+    });
   }
 }
 
