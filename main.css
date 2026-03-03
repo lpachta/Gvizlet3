@@ -1,0 +1,40 @@
+:root {
+    --bg: #f3f4f9;
+    --surface: #ffffff;
+    --primary: #2563eb;
+    --star-active: #f59e0b;
+    --radius-lg: 28px;
+    --radius-md: 16px;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    background-color: var(--bg);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* Navigace nahoře */
+.view-switch {
+    position: fixed;
+    top: 25px;
+    background: #e2e8f0;
+    padding: 6px;
+    border-radius: 16px;
+    display: flex;
+    gap: 8px;
+}
+
+.nav-link {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.nav-link.active { background: white; color: var(--primary); }
