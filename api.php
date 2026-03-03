@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-$host = 'sql109.infinityfree.com'; // Najdeš v InfinityFree panelu
+$host = 'sql109.infinityfree.com';
 $db   = 'if0_40896557_database';
 $user = 'if0_40896557';
 $pass = '7uJk1S0Jhx';

@@ -56,3 +56,5 @@ export async function updateCardStar(id, isStarred) {
     throw err; // Vyhodíme chybu dál, aby na ni mohl reagovat hlavní skript
   }
 }
+
+

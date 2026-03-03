@@ -7,20 +7,3 @@ const dom = {
   backInput: document.getElementById('backText'),
 };
 
-
-function init() {
-  dom.addViewBtn?.addEventListener('click', () => toggleAddMode(true));
-  dom.cancelAddBtn?.addEventListener('click', () => toggleAddMode(false));
-}
-
-function toggleAddMode(showAdd) {
-  if (showAdd) {
-    dom.quizContent.style.display = 'none';
-    dom.addCardView.style.display = 'block';
-    dom.finishMessage.style.display = 'none';
-  } else {
-    dom.addCardView.style.display = 'none';
-    // refreshLists() zajistí, že se vrátíme do správného stavu prohlížení
-    refreshLists();
-  }
-}

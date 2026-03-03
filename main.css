@@ -18,7 +18,6 @@ html, body {
     justify-content: center;
     align-items: center;
 }
-/* Navigace nahoře */
 .view-switch {
     position: fixed;
     top: 25px;
