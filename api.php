@@ -1,11 +1,9 @@
 <?php
 header('Content-Type: application/json');
-$host = 'sql109.infinityfree.com';
-$db   = 'if0_40896557_database';
-$user = 'if0_40896557';
-$pass = '7uJk1S0Jhx';
+include_once('config.php');
 
 $conn = new mysqli($host, $user, $pass, $db);
+$conn->set_charset("utf8mb4");
 
 if ($conn->connect_error) {
     die(json_encode(["error" => "Connection failed"]));

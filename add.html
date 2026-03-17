@@ -14,27 +14,34 @@
     <a href="index.html" class="nav-link">📖 Prohlížení</a>
     <a href="test.html" class="nav-link">🧠 Testování</a>
     <a href="add.html" class="nav-link active">+ Přidání karty</a>
+    <a href="list.php" class="nav-link">🗑️ Seznam karet</a>
   </nav>
 
   <div id="add-card-view">
-    <form action="upload.php" method="POST" enctype="multipart/form-data">
+    <form action="upload.php" method="post" enctype="multipart/form-data">
       <div class="card-form">
-          <h2>Nová kartička</h2>
-          
-          <div class="input-group">
-              <label for="frontText">Přední strana (Text):</label>
-              <input type="text" id="frontText" placeholder="Co chceš vědět?">
-          </div>
+        <h2>Nová kartička</h2>
+        
+        <div class="input-group">
+            <label for="frontText">Přední strana (Text):</label>
+            <input type="text" name="frontText" placeholder="Pojem">
+            
+            <label for="frontImg">Přední strana (Obrázek):</label>
+            <input type="file" name="frontImg" id="frontImg" accept="image/*">
+        </div>
 
-          <div class="input-group">
-              <label for="backText">Zadní strana (Odpověď):</label>
-              <input type="text" id="backText" placeholder="Jaká je odpověď?">
-          </div>
+        <hr> <div class="input-group">
+            <label for="backText">Zadní strana (Odpověď):</label>
+            <input type="text" name="backText" placeholder="Definice">
+            
+            <label for="backImg">Zadní strana (Obrázek):</label>
+            <input type="file" name="backImg" id="backImg" accept="image/*">
+        </div>
 
-          <div class="button-row">
-              <button id="save-card-btn" class="nav-btn btn-right">💾 Uložit</button>
-              <button id="cancel-add-btn" class="nav-btn btn-wrong">❌ Zrušit</button>
-          </div>
+        <div class="button-row">
+            <button type="submit" name="submit" id="save-card-btn" class="nav-btn btn-right">💾 Uložit</button>
+            <button type="button" id="cancel-add-btn" class="nav-btn btn-wrong">❌ Zrušit</button>
+        </div>
       </div>
     </form>
   </div>

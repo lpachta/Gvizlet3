@@ -113,3 +113,93 @@ body.add-view {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+
+
+/* Kontejner pro celý seznam */
+.card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 500px; /* Uprav podle potřeby */
+    margin-top: 80px; /* Prostor pod fixní navigací */
+}
+
+/* Jednotlivý řádek s kartou */
+.card-item {
+    background: var(--surface);
+    padding: 16px 20px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.card-item:hover {
+    transform: scale(1.01);
+}
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+/* Styl smazacího tlačítka */
+.btn-delete {
+    background-color: #fee2e2; /* Jemná červená na pozadí */
+    color: #ef4444; /* Výrazná červená pro text/ikonu */
+    border: none;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-delete:hover {
+    background-color: #ef4444;
+    color: white;
+}/* Kontejner pro text a obrázky */
+.card-info {
+    display: flex;
+    flex-direction: row; /* Rozložíme věci do řádku */
+    align-items: center;
+    gap: 15px;
+    flex-grow: 1;
+}
+
+/* Styl pro samotné náhledy */
+.card-info img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover; /* Ořízne obrázek, aby vyplnil čtverec bez deformace */
+    border-radius: 8px; /* Jemnější rohy pro malé náhledy */
+    border: 1px solid #e2e8f0;
+    background-color: #f1f5f9; /* Barva pozadí, pokud se obrázek načítá nebo chybí */
+}
+
+/* Pokud obrázek chybí, zabráníme ošklivému borderu */
+.card-info img:not([src]), 
+.card-info img[src=""] {
+    display: none;
+}
+
+/* Mobilní optimalizace - aby se to na malém displeji nepomačkalo */
+@media (max-width: 600px) {
+    .card-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .btn-delete {
+        width: 100%;
+        justify-content: center;
+    }
+}
