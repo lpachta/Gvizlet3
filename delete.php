@@ -22,11 +22,11 @@ if (isset($_POST['delete'])) {
         if (file_exists($frontImg)) { unlink($frontImg); }
         if (file_exists($backImg)) { unlink($backImg); }
 
-        echo "<h2>Karta byla úspěšně odstraněna!</h2>";
-        echo "<a href='list.php' style='padding:10px; background:#4CAF50; color:white; text-decoration:none; border-radius:5px;'>⬅ Zpět na seznam karet</a>";
+        header("Location: list.php?status=deleted");
+      exit();
     } else {
         echo "Chyba při mazání z databáze: " . $stmt->error;
-        echo "<br><a href='add.html'>Zkusit znovu</a>";
+        echo "<br><a href='list.php'>Zkusit znovu</a>";
     }
     
     $stmt->close();
